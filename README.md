@@ -1,41 +1,41 @@
-# FuckAI
+# FuckAI Beta
 
-A chaotic AI chat built with Next.js, Gemini, and questionable life decisions.
+A chaotic AI chat built with Next.js, OpenRouter, and questionable life decisions.
 
-The assistant talks like a sarcastic but helpful friend from Discord:
+The assistant behaves like a sarcastic friend:
 
 - roasts your mistakes
 - answers shortly
 - uses internet humor
 - occasionally swears
-- still somehow useful
+- still somehow helpful
 
 ---
 
-## Stack
+## Preview
+
+- sarcastic AI personality
+- short chaotic responses
+- markdown support
+- mobile-friendly UI
+- local chat persistence
+- typing animation
+- clean architecture
+- OpenRouter integration
+
+---
+
+## Tech Stack
 
 - Next.js 15
 - React 19
 - TypeScript
 - TailwindCSS
 - shadcn/ui
-- Gemini API
+- OpenRouter API
 - Axios
 - React Markdown
 - TypeAnimation
-
----
-
-## Features
-
-- AI chat with Gemini
-- Interaction memory
-- Local chat persistence
-- Markdown rendering
-- Code highlighting
-- Typing animation
-- Clean component architecture
-- Sarcastic personality system prompt
 
 ---
 
@@ -44,7 +44,7 @@ The assistant talks like a sarcastic but helpful friend from Discord:
 Clone the repo:
 
 ```bash
-git clone https://github.com/karadzabayezit/FuckAI.git
+git clone YOUR_REPO_URL
 ```
 
 Install dependencies:
@@ -55,23 +55,31 @@ npm install
 
 ---
 
-## Environment Variables
+## OpenRouter API Setup
 
-Create:
+1. Go to:
+
+https://openrouter.ai
+
+2. Create an account
+
+3. Open API keys page:
+
+https://openrouter.ai/keys
+
+4. Generate a new API key
+
+5. Create:
 
 ```txt
 .env.local
 ```
 
-Add your Gemini API key:
+6. Add:
 
 ```env
-GEMINI_API_KEY=your_api_key_here
+OPENROUTER_API_KEY=your_api_key_here
 ```
-
-Get your key from:
-
-[https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
 
 ---
 
@@ -94,16 +102,28 @@ http://localhost:3000
 ```txt
 src/
 ├── app/
-│   ├── api/chat/
+│   ├── api/
+│   │   └── chat/
+│   │       ├── route.ts
+│   │       └── config.ts
+│   │
+│   ├── globals.css
+│   ├── layout.tsx
 │   └── page.tsx
 │
-├── components/chat/
-│   ├── ChatHeader.tsx
-│   ├── ChatInput.tsx
-│   ├── ChatLayout.tsx
-│   ├── ChatMessage.tsx
-│   ├── ChatMessages.tsx
-│   └── types.ts
+├── components/
+│   ├── chat/
+│   │   ├── ChatHeader.tsx
+│   │   ├── ChatInput.tsx
+│   │   ├── ChatLayout.tsx
+│   │   ├── ChatMessage.tsx
+│   │   ├── ChatMessages.tsx
+│   │   └── types.ts
+│   │
+│   ├── providers/
+│   │   └── ThemeProvider.tsx
+│   │
+│   └── ui/
 │
 ├── hooks/
 │   ├── useChat.ts
@@ -111,14 +131,15 @@ src/
 │
 ├── lib/
 │   ├── chatAPI.ts
-│   
+│   ├── constants.ts
+│   └── utils.ts
 ```
 
 ---
 
 ## Security
 
-Your Gemini API key is never exposed to the client.
+Your API key is never exposed to the client.
 
 Architecture:
 
@@ -127,10 +148,10 @@ Client
 ↓
 Next.js API Route
 ↓
-Gemini API
+OpenRouter API
 ```
 
-If you put your API key in frontend code, congratulations: some random dude will mine your quota in 14 minutes.
+If you put your API key into frontend code, some random dude will farm your quota in 15 minutes.
 
 ---
 
@@ -140,10 +161,16 @@ Recommended:
 
 - Vercel
 
-Add environment variable in:
+Add environment variable:
 
 ```txt
 Project Settings → Environment Variables
+```
+
+Add:
+
+```txt
+OPENROUTER_API_KEY
 ```
 
 ---
@@ -152,5 +179,4 @@ Project Settings → Environment Variables
 
 MIT
 
-Use it responsibly, ай брат.
-
+Use responsibly, ай брат.
