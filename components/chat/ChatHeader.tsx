@@ -12,7 +12,7 @@ export function ChatHeader({ onClear }: Props) {
           <h1 className="text-3xl font-semibold tracking-tight">FuckAI</h1>
 
           <span className="rounded-full border px-2 py-0.5 text-[10px] font-medium tracking-wider text-muted-foreground uppercase">
-            Beta
+            Alpha
           </span>
         </div>
 
