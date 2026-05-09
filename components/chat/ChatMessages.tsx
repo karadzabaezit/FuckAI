@@ -21,10 +21,10 @@ export function ChatMessages({
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
-      behavior: "instant",
+      behavior: "smooth",
       block: "end",
     })
-  }, [])
+  }, [messages])
 
   return (
     <ScrollArea className="min-h-0 flex-1">

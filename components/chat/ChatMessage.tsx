@@ -22,11 +22,11 @@ export function ChatMessage({ message, isLast, isTyping, onTypingEnd }: Props) {
       }`}
     >
       <div
-        className={`max-w-[75%] text-[15px] leading-7 ${
+        className={`max-w-[90%] text-[15px] leading-7 md:max-w-[75%] ${
           message.role === "user" ? "text-foreground" : "text-muted-foreground"
         }`}
       >
-        {message.role === "ai" && isLast && isTyping ? (
+        {message.role === "assistant" && isLast && isTyping ? (
           <TypeAnimation
             sequence={[message.content, onTypingEnd]}
             speed={95}

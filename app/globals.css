@@ -120,6 +120,7 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground;
@@ -130,5 +131,11 @@
   }
   html {
     @apply font-sans;
+  }
+  html,
+  body {
+    overscroll-behavior: none;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
   }
 }
