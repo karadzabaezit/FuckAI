@@ -1,4 +1,4 @@
-# FuckAI Beta
+# FuckAI Alpha
 
 A chaotic AI chat built with Next.js, OpenRouter, and questionable life decisions.
 
