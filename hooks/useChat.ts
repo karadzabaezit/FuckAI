@@ -154,7 +154,9 @@ export function useChat() {
   const [isLoading, setIsLoading] = useState(false)
   const [isTyping, setIsTyping] = useState(false)
   const [messages, setMessages] = useState<Message[]>([])
-
+  const [personality, setPersonality] = useState<"kazakh" | "philosopher">(
+    "kazakh"
+  )
   useEffect(() => {
     const storedMessages = loadMessages()
     if (storedMessages.length > 0) {
@@ -197,7 +199,7 @@ export function useChat() {
     setIsLoading(true)
 
     try {
-      const response = await sendMessage(userMessage, nextMessages)
+      const response = await sendMessage(userMessage, nextMessages, personality)
 
       updateMessages((prev) => [
         ...prev,
@@ -240,6 +242,8 @@ export function useChat() {
   }
 
   return {
+    personality,
+    setPersonality,
     mounted,
     value,
     setValue,

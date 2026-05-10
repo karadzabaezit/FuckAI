@@ -37,9 +37,11 @@ export type SendMessageResponse = {
 
 export const sendMessage = async (
   message: string,
-  messages: Message[]
+  messages: Message[],
+  personality: string
 ): Promise<SendMessageResponse> => {
   const { data } = await axios.post("/api/chat", {
+    personality,
     messages: messages.slice(-10),
   })
 

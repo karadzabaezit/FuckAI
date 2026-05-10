@@ -18,6 +18,8 @@ export default function Page() {
     setIsTyping,
     handleSendMessage,
     clearChat,
+    personality,
+    setPersonality,
   } = useChat()
 
   if (!mounted) {
@@ -36,6 +38,8 @@ export default function Page() {
       />
 
       <ChatInput
+        personality={personality}
+        setPersonality={setPersonality}
         value={value}
         setValue={setValue}
         onSend={handleSendMessage}

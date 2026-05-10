@@ -4,7 +4,7 @@ import { NextResponse } from "next/server"
 
 import OpenAI from "openai"
 
-import { SYSTEM_INSTRUCTION } from "./config"
+import { PERSONALITIES } from "@/lib/personalities"
 
 export const MODELS = [
   "openai/gpt-oss-120b:free",
@@ -32,10 +32,14 @@ type ChatMessage = {
 export async function POST(req: Request) {
   try {
     const body = await req.json()
+    const selectedPersonality =
+      PERSONALITIES[body.personality as keyof typeof PERSONALITIES] ||
+      PERSONALITIES.kazakh
+
     const messages: ChatMessage[] = [
       {
         role: "system",
-        content: SYSTEM_INSTRUCTION,
+        content: selectedPersonality.prompt,
       },
       ...(body.messages || [])
         .slice(-MAX_CONTEXT_MESSAGES)
