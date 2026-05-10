@@ -40,7 +40,7 @@ export const sendMessage = async (
   messages: Message[]
 ): Promise<SendMessageResponse> => {
   const { data } = await axios.post("/api/chat", {
-    messages,
+    messages: messages.slice(-10),
   })
 
   return data

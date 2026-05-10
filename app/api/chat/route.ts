@@ -16,6 +16,7 @@ export const MODELS = [
   "inclusionai/ring-2.6-1t:free",
   "openrouter/owl-alpha",
 ]
+const MAX_CONTEXT_MESSAGES = 10
 
 const client = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
@@ -36,17 +37,19 @@ export async function POST(req: Request) {
         role: "system",
         content: SYSTEM_INSTRUCTION,
       },
-      ...(body.messages || []).map(
-        (message: {
-          role: string
-          content: string
-          reasoning_details?: unknown
-        }) => ({
-          role: message.role as "user" | "assistant" | "system",
-          content: message.content,
-          reasoning_details: message.reasoning_details,
-        })
-      ),
+      ...(body.messages || [])
+        .slice(-MAX_CONTEXT_MESSAGES)
+        .map(
+          (message: {
+            role: string
+            content: string
+            reasoning_details?: unknown
+          }) => ({
+            role: message.role as "user" | "assistant" | "system",
+            content: message.content,
+            reasoning_details: message.reasoning_details,
+          })
+        ),
     ]
 
     let completion: Awaited<
