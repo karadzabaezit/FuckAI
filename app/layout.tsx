@@ -35,11 +35,20 @@ export const metadata: Metadata = {
     siteName: "FuckAI",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "FuckAI",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "FuckAI",
     description: "AI Without Corporate Bullshit.",
+    images: ["/opengraph-image.png"],
   },
   robots: {
     index: true,
