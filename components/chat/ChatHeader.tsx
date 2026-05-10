@@ -15,7 +15,7 @@ export function ChatHeader() {
   }
 
   return (
-    <div className="sticky top-0 z-50 mb-4 flex items-center justify-between rounded-2xl border bg-background/70 px-4 py-3 backdrop-blur-xl supports-backdrop-filter:bg-background/60">
+    <div className="fixed top-4 left-1/2 z-50 flex w-[calc(100%-2rem)] max-w-4xl -translate-x-1/2 items-center justify-between rounded-2xl border border-white/10 bg-background/80 px-4 py-3 shadow-lg backdrop-blur-md">
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-3xl font-bold tracking-tight">FuckAI</h1>

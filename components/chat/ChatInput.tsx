@@ -36,7 +36,7 @@ export function ChatInput({
   setPersonality,
 }: Props) {
   return (
-    <div className="mt-4 pb-[env(safe-area-inset-bottom)]">
+    <div className="fixed right-0 bottom-0 left-0 z-50 mx-auto max-w-4xl p-4 pb-[env(safe-area-inset-bottom)]">
       <div className="rounded-[32px] border bg-background/80 p-3 shadow-lg backdrop-blur-md">
         <Textarea
           value={value}
@@ -51,10 +51,10 @@ export function ChatInput({
               onSend()
             }
           }}
-          className="max-h-60 min-h-16 resize-none border-0 bg-transparent px-3 py-3 text-[16px] shadow-none focus-visible:ring-0"
+          className="max-h-60 min-h-16 resize-none border-0 bg-transparent px-3 py-1 pt-3 text-[16px] shadow-none focus-visible:ring-0"
         />
 
-        <div className="mt-2 flex items-center justify-between gap-2 px-2">
+        <div className="flex items-center justify-between gap-2 px-1">
           <div className="flex items-center gap-2">
             <Select
               value={personality}
@@ -66,7 +66,6 @@ export function ChatInput({
 
               <SelectContent className="p-1">
                 <SelectItem value="kazakh">Best friend</SelectItem>
-
                 <SelectItem value="philosopher">Philosopher</SelectItem>
               </SelectContent>
             </Select>
