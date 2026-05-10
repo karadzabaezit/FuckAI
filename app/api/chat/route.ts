@@ -1,56 +1,21 @@
 // import { GoogleGenAI } from "@google/genai"
+
 import { NextResponse } from "next/server"
+
 import OpenAI from "openai"
+
 import { SYSTEM_INSTRUCTION } from "./config"
 
-// const ai = new GoogleGenAI({
-//   apiKey: process.env.GEMINI_API_KEY!,
-// })
-
-// export async function POST(req: Request) {
-//   try {
-//     const body = await req.json()
-
-//     const interaction = await ai.interactions.create({
-//       model: "gemini-2.5-flash-lite",
-//       input: body.message,
-//       previous_interaction_id: body.previousInteractionId ?? undefined,
-//       system_instruction: SYSTEM_INSTRUCTION,
-//     })
-
-//     // @ts-expect-error Gemini typings are drunk
-//     const text = interaction.steps?.at(-1)?.content?.[0]?.text || ""
-//     return NextResponse.json({
-//       text,
-//       interactionId: interaction.id,
-//     })
-//   } catch (error: unknown) {
-//     console.error(error)
-
-//     let status = 500
-//     let message = "Something exploded."
-
-//     if (typeof error === "object" && error !== null) {
-//       if ("status" in error) {
-//         status = Number(error.status)
-//       }
-//       if ("message" in error) {
-//         message = String(error.message)
-//       }
-//     }
-
-//     return NextResponse.json(
-//       {
-//         error: {
-//           message,
-//         },
-//       },
-//       {
-//         status,
-//       }
-//     )
-//   }
-// }
+export const MODELS = [
+  "openai/gpt-oss-120b:free",
+  "qwen/qwen3-next-80b-a3b-instruct:free",
+  "meta-llama/llama-3.3-70b-instruct:free",
+  "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+  "google/lyria-3-pro-preview",
+  "qwen/qwen3-coder:free",
+  "inclusionai/ring-2.6-1t:free",
+  "openrouter/owl-alpha",
+]
 
 const client = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
@@ -84,17 +49,38 @@ export async function POST(req: Request) {
       ),
     ]
 
-    const completion = await client.chat.completions.create({
-      model: "inclusionai/ring-2.6-1t:free",
-      messages,
-    })
+    let completion: Awaited<
+      ReturnType<typeof client.chat.completions.create>
+    > | null = null
+    let lastError: unknown = null
+    let usedModel = ""
+    for (const model of MODELS) {
+      try {
+        completion = await client.chat.completions.create({
+          model,
+          messages,
+        })
+        usedModel = model
+        console.log(`Using model: ${model}`)
+        break
+      } catch (error) {
+        console.error(`Model failed: ${model}`, error)
+        lastError = error
+      }
+    }
+
+    if (!completion) {
+      throw lastError
+    }
 
     const response = completion.choices[0].message
 
     return NextResponse.json({
       text: response.content || "",
-      // @ts-expect-error openrouter typings moment
-      reasoningDetails: response.reasoning_details,
+      model: usedModel,
+      reasoningDetails:
+        // @ts-expect-error i dont know
+        response.reasoning_details,
     })
   } catch (error: unknown) {
     console.error(error)
@@ -104,7 +90,6 @@ export async function POST(req: Request) {
       if ("status" in error) {
         status = Number(error.status)
       }
-
       if ("message" in error) {
         message = String(error.message)
       }
