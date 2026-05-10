@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { Send } from "lucide-react"
 
 type Props = {
   value: string
   setValue: (value: string) => void
   onSend: () => void
+  onClear: () => void
   disabled: boolean
   maxLength: number
 }
@@ -13,6 +15,7 @@ export function ChatInput({
   value,
   setValue,
   onSend,
+  onClear,
   disabled,
   maxLength,
 }: Props) {
@@ -35,9 +38,19 @@ export function ChatInput({
         />
 
         <div className="mt-2 flex items-center justify-between px-2">
-          <span className="text-xs text-muted-foreground">
-            {value.length}/{maxLength}
-          </span>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              onClick={onClear}
+              className="h-9 rounded-full text-muted-foreground"
+            >
+              Clear chat
+            </Button>
+
+            <span className="text-xs text-muted-foreground">
+              {value.length}/{maxLength}
+            </span>
+          </div>
 
           <Button
             onClick={onSend}
@@ -45,7 +58,7 @@ export function ChatInput({
             size="icon"
             className="h-11 w-11 rounded-full"
           >
-            ↑
+            <Send />
           </Button>
         </div>
       </div>

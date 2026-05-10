@@ -26,7 +26,7 @@ export default function Page() {
 
   return (
     <ChatLayout>
-      <ChatHeader onClear={clearChat} />
+      <ChatHeader />
 
       <ChatMessages
         messages={messages}
@@ -39,6 +39,7 @@ export default function Page() {
         value={value}
         setValue={setValue}
         onSend={handleSendMessage}
+        onClear={clearChat}
         disabled={isLoading || isTyping}
         maxLength={2000}
       />

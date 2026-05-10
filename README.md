@@ -1,4 +1,4 @@
-# FuckAI Alpha
+# FuckAI Alpha | AI Without Corporate Bullshit.
 
 A chaotic AI chat built with Next.js, OpenRouter, and questionable life decisions.
 

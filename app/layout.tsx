@@ -1,11 +1,10 @@
-import { Geist_Mono, Inter } from "next/font/google"
+import { Albert_Sans, Geist_Mono } from "next/font/google"
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" })
-
+const albert = Albert_Sans({ subsets: ["latin"], variable: "--font-sans" })
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
@@ -24,11 +23,11 @@ export default function RootLayout({
         "antialiased",
         fontMono.variable,
         "font-sans",
-        inter.variable
+        albert.variable
       )}
     >
       <head>
-        <title>FuckAI</title>
+        <title>FuckAI | AI Without Corporate Bullshit.</title>
       </head>
       <body>
         <ThemeProvider>{children}</ThemeProvider>
