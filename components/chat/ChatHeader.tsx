@@ -32,7 +32,7 @@ export function ChatHeader() {
 
       <div className="flex items-center gap-2">
         <a
-          href="https://github.com/karadzabayezit/FuckAI"
+          href="https://github.com/karadzabaezit/FuckAI"
           target="_blank"
           rel="noopener noreferrer"
         >
