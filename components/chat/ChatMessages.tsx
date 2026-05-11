@@ -1,8 +1,11 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { ChatMessage } from "@/components/chat/ChatMessage";
+
 import { useEffect, useRef } from "react";
+
 import { AnimatedShinyText } from "../ui/animated-shiny-text";
+
 import { Message } from "./types";
 
 type Props = {
@@ -21,16 +24,18 @@ export function ChatMessages({
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
+    requestAnimationFrame(() => {
+      bottomRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
     });
-  }, [messages]);
+  }, [messages, isLoading, isTyping]);
 
   return (
     <div className="min-h-0 flex-1">
       <ScrollArea className="h-full">
-        <div className="flex flex-col gap-6 px-1 pb-32 md:px-6">
+        <div className="flex flex-col gap-6 px-1 md:px-6">
           {messages.map((message, index) => (
             <ChatMessage
               key={message.id}
@@ -41,13 +46,13 @@ export function ChatMessages({
             />
           ))}
 
-          {(isLoading || isTyping || true) && (
+          {(isLoading || isTyping) && (
             <AnimatedShinyText className="m-0 w-fit text-sm text-muted-foreground">
               Thinking...
             </AnimatedShinyText>
           )}
 
-          <div ref={bottomRef} />
+          <div ref={bottomRef} className="h-40 shrink-0" />
         </div>
       </ScrollArea>
     </div>

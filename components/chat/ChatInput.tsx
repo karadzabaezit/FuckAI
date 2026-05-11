@@ -1,8 +1,8 @@
-import { Send } from "lucide-react"
+import { Send } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/ui/textarea";
 
 import {
   Select,
@@ -10,20 +10,20 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
-type Personality = "kazakh" | "philosopher"
+type Personality = "kazakh" | "philosopher";
 
 type Props = {
-  value: string
-  setValue: (value: string) => void
-  onSend: () => void
-  onClear: () => void
-  disabled: boolean
-  maxLength: number
-  personality: Personality
-  setPersonality: (personality: Personality) => void
-}
+  value: string;
+  setValue: (value: string) => void;
+  onSend: () => void;
+  onClear: () => void;
+  disabled: boolean;
+  maxLength: number;
+  personality: Personality;
+  setPersonality: (personality: Personality) => void;
+};
 
 export function ChatInput({
   value,
@@ -43,12 +43,11 @@ export function ChatInput({
           onChange={(e) => setValue(e.target.value.slice(0, maxLength))}
           maxLength={maxLength}
           placeholder="Ask anything..."
-          disabled={disabled}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault()
+              e.preventDefault();
 
-              onSend()
+              onSend();
             }
           }}
           className="max-h-60 min-h-16 resize-none border-0 bg-transparent px-3 py-1 pt-3 text-[16px] shadow-none focus-visible:ring-0"
@@ -94,5 +93,5 @@ export function ChatInput({
         </div>
       </div>
     </div>
-  )
+  );
 }
