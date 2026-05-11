@@ -1,190 +1,67 @@
-// "use client"
+"use client";
 
-// import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-// import { Message } from "@/components/chat/types"
+import { Message } from "@/components/chat/types";
 
-// import { sendMessage } from "@/lib/chatAPI"
+import { sendMessage } from "@/lib/chatAPI";
+import { generateId } from "@/lib/utils";
 
-// import { generateId } from "@/lib/utils"
-// import axios from "axios"
-// import {
-//   clearChatStorage,
-//   loadInteractionId,
-//   loadMessages,
-//   saveInteractionId,
-//   saveMessages,
-// } from "./useChatStorage"
+import axios from "axios";
 
-// export function useChat() {
-//   const [mounted, setMounted] = useState(false)
-//   const [value, setValue] = useState("")
-//   const [isLoading, setIsLoading] = useState(false)
-//   const [isTyping, setIsTyping] = useState(false)
-//   const [messages, setMessages] = useState<Message[]>([])
-//   const [interactionId, setInteractionId] = useState<string | null>(null)
+import {
+  clearChatStorage,
+  loadMessages,
+  loadPersonality,
+  saveMessages,
+  savePersonality,
+} from "./useChatStorage";
 
-//   // HYDRATION RESTORE
-
-//   useEffect(() => {
-//     const storedMessages = loadMessages()
-//     const storedInteractionId = loadInteractionId()
-//     if (storedMessages.length > 0) {
-//       // eslint-disable-next-line react-hooks/set-state-in-effect
-//       setMessages(storedMessages)
-//     }
-//     if (storedInteractionId) {
-//       setInteractionId(storedInteractionId)
-//     }
-
-//     setMounted(true)
-//   }, [])
-
-//   const updateMessages = (updater: (prev: Message[]) => Message[]) => {
-//     setMessages((prev) => {
-//       const updated = updater(prev)
-//       saveMessages(updated)
-
-//       return updated
-//     })
-//   }
-
-//   const updateInteractionId = (id: string | null) => {
-//     setInteractionId(id)
-//     saveInteractionId(id)
-//   }
-
-//   const clearChat = () => {
-//     setMessages([])
-//     updateInteractionId(null)
-//     clearChatStorage()
-//   }
-
-//   const handleSendMessage = async () => {
-//     if (!value.trim() || isLoading || isTyping) {
-//       return
-//     }
-//     const userMessage = value.trim()
-//     setValue("")
-//     updateMessages((prev) => [
-//       ...prev,
-//       {
-//         id: generateId(),
-//         role: "user",
-//         content: userMessage,
-//       },
-//     ])
-//     setIsLoading(true)
-//     try {
-//       const response = await sendMessage(userMessage, interactionId)
-//       updateInteractionId(response.interactionId)
-//       updateMessages((prev) => [
-//         ...prev,
-//         {
-//           id: generateId(),
-//           role: "ai",
-//           content: response.text,
-//         },
-//       ])
-
-//       setIsTyping(true)
-//     } catch (error) {
-//       console.error(error)
-
-//       let errorMessage = "Мда уж. Что-то сдохло."
-
-//       if (axios.isAxiosError(error)) {
-//         const status = error.response?.status
-
-//         const apiMessage = error.response?.data?.error?.message
-
-//         if (status === 429) {
-//           errorMessage =
-//             "Лимит кончился, брат. Gemini сказал: иди потрогай траву."
-//         } else if (status === 500) {
-//           errorMessage = "Сервер умер. Жесть конечно."
-//         } else if (status === 401) {
-//           errorMessage = "API key сдох или невалидный. Ну ты дал."
-//         } else if (apiMessage) {
-//           errorMessage = "Мда уж. Что-то умерло."
-//         }
-//       }
-//       updateMessages((prev) => [
-//         ...prev,
-//         {
-//           id: generateId(),
-//           role: "ai",
-//           content: errorMessage,
-//         },
-//       ])
-//     } finally {
-//       setIsLoading(false)
-//     }
-//   }
-
-//   return {
-//     mounted,
-//     value,
-//     setValue,
-//     messages,
-//     isLoading,
-//     isTyping,
-//     setIsTyping,
-//     handleSendMessage,
-//     clearChat,
-//   }
-// }
-
-"use client"
-
-import { useEffect, useState } from "react"
-
-import { Message } from "@/components/chat/types"
-
-import { sendMessage } from "@/lib/chatAPI"
-import { generateId } from "@/lib/utils"
-
-import axios from "axios"
-
-import { clearChatStorage, loadMessages, saveMessages } from "./useChatStorage"
+import { Personality } from "@/lib/personalities";
 
 export function useChat() {
-  const [mounted, setMounted] = useState(false)
-  const [value, setValue] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [isTyping, setIsTyping] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
-  const [personality, setPersonality] = useState<"kazakh" | "philosopher">(
-    "kazakh"
-  )
+  const [mounted, setMounted] = useState(false);
+  const [value, setValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [personality, setPersonality] = useState<Personality>("kazakh");
+
   useEffect(() => {
-    const storedMessages = loadMessages()
+    const storedMessages = loadMessages();
     if (storedMessages.length > 0) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setMessages(storedMessages)
+      setMessages(storedMessages);
     }
-    setMounted(true)
-  }, [])
+    // Personality loading from local
+    setPersonality(loadPersonality());
+
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    savePersonality(personality);
+  }, [personality]);
 
   const updateMessages = (updater: (prev: Message[]) => Message[]) => {
     setMessages((prev) => {
-      const updated = updater(prev)
-      saveMessages(updated)
-      return updated
-    })
-  }
+      const updated = updater(prev);
+      saveMessages(updated);
+      return updated;
+    });
+  };
 
   const clearChat = () => {
-    setMessages([])
-    clearChatStorage()
-  }
+    setMessages([]);
+    clearChatStorage();
+  };
 
   const handleSendMessage = async () => {
     if (!value.trim() || isLoading || isTyping) {
-      return
+      return;
     }
-    const userMessage = value.trim()
-    setValue("")
+    const userMessage = value.trim();
+    setValue("");
     const nextMessages = [
       ...messages,
       {
@@ -192,14 +69,18 @@ export function useChat() {
         role: "user" as const,
         content: userMessage,
       },
-    ]
+    ];
 
-    updateMessages(() => nextMessages)
+    updateMessages(() => nextMessages);
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const response = await sendMessage(userMessage, nextMessages, personality)
+      const response = await sendMessage(
+        userMessage,
+        nextMessages,
+        personality
+      );
 
       updateMessages((prev) => [
         ...prev,
@@ -208,23 +89,23 @@ export function useChat() {
           role: "assistant",
           content: response.text,
         },
-      ])
+      ]);
 
-      setIsTyping(true)
+      setIsTyping(true);
     } catch (error) {
-      console.error(error)
+      console.error(error);
 
-      let errorMessage = "Мда уж. Что-то сдохло."
+      let errorMessage = "Мда уж. Что-то сдохло.";
 
       if (axios.isAxiosError(error)) {
-        const status = error.response?.status
+        const status = error.response?.status;
 
         if (status === 429) {
-          errorMessage = "Лимит кончился, брат. Потрогай траву пока."
+          errorMessage = "Лимит кончился, брат. Потрогай траву пока.";
         } else if (status === 500) {
-          errorMessage = "Сервер умер. Жесть конечно."
+          errorMessage = "Сервер умер. Жесть конечно.";
         } else if (status === 401) {
-          errorMessage = "API key сдох. Ну ты дал."
+          errorMessage = "API key сдох. Ну ты дал.";
         }
       }
 
@@ -235,11 +116,11 @@ export function useChat() {
           role: "assistant",
           content: errorMessage,
         },
-      ])
+      ]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return {
     personality,
@@ -253,5 +134,5 @@ export function useChat() {
     setIsTyping,
     handleSendMessage,
     clearChat,
-  }
+  };
 }

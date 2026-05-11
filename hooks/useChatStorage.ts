@@ -1,10 +1,9 @@
 import { Message } from "@/components/chat/types"
-import { INTERACTION_KEY, STORAGE_KEY } from "@/lib/constants"
+import { INTERACTION_KEY, PERSONALITY_KEY, STORAGE_KEY } from "@/lib/constants"
+import { Personality } from "@/lib/personalities"
 
 export const loadMessages = (): Message[] => {
-  if (typeof window === "undefined") {
-    return []
-  }
+  if (typeof window === "undefined") return []
 
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
@@ -13,6 +12,14 @@ export const loadMessages = (): Message[] => {
   } catch {
     return []
   }
+}
+export function loadPersonality(): Personality {
+  if (typeof window === "undefined") {
+    return "kazakh"
+  }
+  const stored = localStorage.getItem(PERSONALITY_KEY) as Personality | null
+
+  return stored || "kazakh"
 }
 
 export const saveMessages = (messages: Message[]) => {
@@ -41,4 +48,12 @@ export const clearChatStorage = () => {
   localStorage.removeItem(STORAGE_KEY)
 
   localStorage.removeItem(INTERACTION_KEY)
+}
+
+export function savePersonality(personality: Personality) {
+  localStorage.setItem(
+    PERSONALITY_KEY,
+
+    personality
+  )
 }
