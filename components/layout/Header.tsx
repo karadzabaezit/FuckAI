@@ -79,7 +79,7 @@ export function Header({ showChatButton = false }: Props) {
           whileTap={{
             scale: 0.95,
           }}
-          href="https://github.com/karadzabayezit/FuckAI"
+          href="https://github.com/karadzabaezit/FuckAI"
           target="_blank"
           rel="noopener noreferrer"
           className="t flex h-10 w-10 items-center justify-center rounded-full border bg-background/60"

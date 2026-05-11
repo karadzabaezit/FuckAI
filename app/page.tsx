@@ -141,7 +141,7 @@ export default function HomePage() {
                 }}
               >
                 <a
-                  href="https://github.com/karadzabayezit/FuckAI"
+                  href="https://github.com/karadzabaezit/FuckAI"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
