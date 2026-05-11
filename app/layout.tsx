@@ -11,6 +11,7 @@ const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 });
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://fuck-ai.space"),
   title: {
@@ -18,15 +19,22 @@ export const metadata: Metadata = {
     template: "%s — FuckAI",
   },
   description:
-    "Sarcastic AI assistant with humor, personality, and zero corporate bullshit.",
+    "FuckAI is an AI chat app with real personality, sarcasm, humor, and human-like conversations. No corporate assistant energy.",
   keywords: [
+    "fuckai",
+    "fuck ai",
+    "fuck ai space",
+    "FuckAI",
+    "AI without corporate bullshit",
     "AI chat",
     "AI assistant",
     "sarcastic AI",
+    "uncensored AI",
+    "personality AI",
+    "discord style AI",
     "funny AI",
     "AI chatbot",
     "chatgpt alternative",
-    "OpenRouter AI",
     "AI with personality",
   ],
   openGraph: {
